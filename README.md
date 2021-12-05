@@ -1,5 +1,4 @@
-# adventofcode2021
-Advent of Code 2021
+# Advent of Code 2021
 
 This repository contains my entries for the Advent of Code 2021.
 

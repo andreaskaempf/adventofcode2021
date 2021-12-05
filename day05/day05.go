@@ -19,7 +19,7 @@ import (
 // Widith & height of the ocean floor
 const SIZE = 1000
 
-// Set this to true for Part 2 (looks at diagonal lines)
+// Set this to false for Part 2 (looks at diagonal lines)
 const Part1 = false
 
 func main() {
@@ -31,7 +31,7 @@ func main() {
 		floor = append(floor, make([]int, SIZE, SIZE))
 	}
 
-	// Read each row of the input, which consists of x1,y1,x2,y2
+	// Read each row of the CSV file, which consists of x1,y1,x2,y2
 	// (arrows changed to commas using an editor), and set matrix
 	// cells to represent number of lines that cross
 	//f, err := os.Open("test_input.txt")
@@ -43,7 +43,7 @@ func main() {
 	r := csv.NewReader(f)
 	for {
 
-		// Read and parse data row
+		// Read and parse one data row
 		row, err := r.Read()
 		if err == io.EOF {
 			break
@@ -61,7 +61,7 @@ func main() {
 		}
 
 		// Determine the direction of travel for x and y
-		var dx, dy int // initialized to zero
+		var dx, dy int // initialized to zero, for horiz/vertical
 		if x1 < x2 {
 			dx = 1
 		} else if x1 > x2 {
@@ -78,9 +78,8 @@ func main() {
 		x := x1
 		y := y1
 		for {
-			//fmt.Printf("  Setting %d,%d to %d\n", x, y, floor[y][x]+1)
-			floor[y][x] += 1
-			if x == x2 && y == y2 {
+			floor[y][x] += 1        // first index is row, second is column
+			if x == x2 && y == y2 { // finish loop
 				break
 			}
 			x += dx
@@ -91,7 +90,7 @@ func main() {
 	// Now count up the number of cells with 2 or more crossings
 	twos := 0
 	for _, r := range floor { // each row
-		for _, c := range r { // each column
+		for _, c := range r { // each column within row
 			if c >= 2 {
 				twos++
 			}
