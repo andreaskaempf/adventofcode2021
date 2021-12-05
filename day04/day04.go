@@ -1,3 +1,11 @@
+// Day 4 of Advent of Code 2021
+//
+// Simulate game of bingo, by applying list of called numbers
+// until first board wins (for part 2, also find the last board
+// that wins).
+//
+// AK, 4 December 2021
+
 package main
 
 import (

@@ -1,3 +1,11 @@
+// Day 5 of Advent of Code 2021
+//
+// Trace lines on a grid, given starting and ending coordinates of
+// each line, and count up where 2 or more lines cross (part 1 only
+// includes horizontal and vertical lines, part 2 diagonal as well).
+//
+// AK, 5 December 2021
+
 package main
 
 import (
