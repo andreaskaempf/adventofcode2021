@@ -17,11 +17,10 @@ This repository contains my entries for the Advent of Code 2021.
 * **Day 6** (Python, Go): Simulate growth of a population of "lanternfish",
     tricky because performance crawls if you try to simulate individual
     creatures (used dictionary/array of fish by age for speed).
-
-To compile and run a C program
-* Change into the directory with the program (e.g., cd day01)
-* gcc day01.c -o day01
-* ./day01
+* **Day 7** (Julia): Find target position that minimizes fuel use for 
+    a population of crabs that need to move there, under different 
+    assumptions about fuel use per each crab's distance moved 
+    (optimization problem, but used brute force).
 
 To compile and run a Go program
 * Change into the directory with the program
@@ -31,6 +30,11 @@ To compile and run a Go program
 To run a Julia program
 * Change into the directory with the program
 * julia day02.jl
+
+To compile and run a C program
+* Change into the directory with the program (e.g., cd day01)
+* gcc day01.c -o day01
+* ./day01
 
 And of course, to run a Python program
 * Change into the directory with the program
