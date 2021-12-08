@@ -70,7 +70,7 @@ function part2()
         println("\nAnalysing ", ii, " => ", oo)
         tot += analyse(ii, oo)
     end
-    println("\nTotal = ", tot)
+    println("\nTotal = $tot, $errors errors occurred")
 
 end
 
@@ -80,6 +80,9 @@ digits = Dict{String,Int64}("abcefg" => 0, "cf" => 1, "acdeg" => 2,
     "acf" => 7, "abcdefg" => 8, "abcdfg" => 9)
 
 println("Digits: ", digits)
+
+# Global error counter
+errors = 0
 
 # Analyse inputs/outputs from one row: figure out which input
 # pins control which segments, then use this knowledge to decipher
@@ -97,7 +100,6 @@ function analyse(ii, oo)
 
         # Turn the permutation into a dictionary
         #println("Permutation = ", perm)
-        perm_ok = false
         mapping = Dict{Char,Char}()
         for ci in 1:length(perm)  # each character
             mapping['a' + ci - 1] = perm[ci]
@@ -106,10 +108,10 @@ function analyse(ii, oo)
 
         # Go through each input and check if it makes sense
         # against this mapping
-        perm_ok = true
-        for inp in ii
+        perm_ok = true      # Start by assuming it's okay
+        for inp in ii       # Look at each input code on this line
 
-            # Convert this input using the mapping
+            # Unscramble this input using the mapping we are trying
             mapped = join(map(c -> mapping[c], inp))
 
             # Test if it's a valid combination given the length, i.e.,
@@ -141,43 +143,51 @@ function analyse(ii, oo)
                 end
             end
 
-            # Note if this one didn't match
+            # Set flag to indicate that this mapping is no good, if this input didn't match
             if ! ok
                 perm_ok = false
             end
         end
 
-        # If it matched, that's good, but update counter to detect if there are duplicates
+        # If the permutation worked for all inputs, that's good, but update
+        # counter to detect so we can check if there are duplicates (i.e., if
+        # more than one permutation works for the input -- did not happen in
+        # either test or problem data)
         if perm_ok
             nmatches += 1
             good_mapping = mapping
         end
     end
 
-    # If there are no matches, return a score of zero
-    if nmatches == 0
-        println("ERROR: No permutations matched")
-        return 0
-    end
-
-    # If there is more than one match, show error
-    if nmatches > 1
+    # There should be exactly one match: if there are no matches, 
+    # or more than one, return a score of zero
+    if nmatches != 1
         println("ERROR: $nmatches permutations match!")
+        global errors += 1
         return 0
     end
 
     # Otherwise, proceed to use the matching permutation to decode the outputs
     println("Decoding using unique mapping: ", good_mapping)
-    result = ""
+    result = ""  # Will append decoded digits to this
     for o in oo
+
+        # Decode the input signal
         decoded = join(sort([good_mapping[c] for c in o]))
+
+        # Find the digit that matches this pattern
         digit = get(digits, decoded, -1)
+
+        # Show decoded digit, or error if not found (does not happen)
         if digit == -1
             println(o, " => ", decoded, " = INVALID!")
+            global errors += 1
             digit = 0
         else
             println(o, " => ", decoded, " = ", digit)
         end
+
+        # Append digit to the result
         result = result * string(digit)  # append digit
     end
 
