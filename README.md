@@ -2,25 +2,27 @@
 
 This repository contains my entries for the Advent of Code 2021.
 
-* **Day 1** (C, Python): Count number of increases in a text file of lines
+* **Day 1** (C, Python): Count number of increases in a text file of lines (easy)
 * **Day 2** (Go, Python): Process the state of a submarine by interpreting 
-    instructions "forward", "up", "down", etc.
+    instructions "forward", "up", "down", etc. (easy)
 * **Day 3** (Julia, Python): Read list of binary numbers to establish 
-    codes based on column-wise bit frequency
+    codes based on column-wise bit frequency (easy)
 * **Day 4** (Go): Simulate game of bingo, by applying list of called numbers
     until first board wins (for part 2, also find the last board
-    that wins)
+    that wins -- easy)
 * **Day 5** (Go): Trace lines on a grid, given starting and ending 
     coordinates of each line, and count up where 2 or more lines cross 
     (part 1 only includes horizontal and vertical lines, part 2 diagonal 
-    as well).
+    as well -- easy).
 * **Day 6** (Python, Go): Simulate growth of a population of "lanternfish",
     tricky because performance crawls if you try to simulate individual
-    creatures (used dictionary/array of fish by age for speed).
+    creatures (used dictionary/array of fish by age for speed -- medium).
 * **Day 7** (Julia): Find target position that minimizes fuel use for 
     a population of crabs that need to move there, under different 
     assumptions about fuel use per each crab's distance moved 
-    (optimization problem, but used brute force).
+    (optimization problem, but used brute force -- easy).
+* **Day 8** (Julia): Decipher scrambled digits on a digital display (very hard,
+    failed using logic so solved using brute force)
 
 To compile and run a Go program
 * Change into the directory with the program
