@@ -23,6 +23,8 @@ This repository contains my entries for the Advent of Code 2021.
     (optimization problem, but used brute force -- easy).
 * **Day 8** (Julia): Decipher scrambled digits on a digital display (very hard,
     failed using logic so solved using brute force)
+* **Day 9** (Julia): Find lowest points in a 2-dimensional space, and the 
+    areas around these low points, bounded by edges or 9s (medium).
 
 To compile and run a Go program
 * Change into the directory with the program
