@@ -25,6 +25,8 @@ This repository contains my entries for the Advent of Code 2021.
     failed using logic so solved using brute force)
 * **Day 9** (Julia): Find lowest points in a 2-dimensional space, and the 
     areas around these low points, bounded by edges or 9s (medium).
+* **Day 10** (Python): Identify and resolve different types of mis-matched
+    brackets in a file of strings (easy).
 
 To compile and run a Go program
 * Change into the directory with the program
