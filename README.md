@@ -27,6 +27,9 @@ This repository contains my entries for the Advent of Code 2021.
     areas around these low points, bounded by edges or 9s (medium).
 * **Day 10** (Python): Identify and resolve different types of mis-matched
     brackets in a file of strings (easy).
+* **Day 11** (Julia): Simulate energy growth of a field of "octopusses", with each
+    exploding when they reach a level, infecting those around them; for part 2,
+    identify when they all explode in the same iteration (easy).
 
 To compile and run a Go program
 * Change into the directory with the program
