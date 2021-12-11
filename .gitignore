@@ -1,6 +1,5 @@
 go.mod
 go.sum
-test_input*
 julia_snippets
 go_snippets
 books
