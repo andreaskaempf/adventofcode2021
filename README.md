@@ -30,6 +30,9 @@ This repository contains my entries for the Advent of Code 2021.
 * **Day 11** (Julia): Simulate energy growth of a field of "octopusses", with each
     exploding when they reach a level, infecting those around them; for part 2,
     identify when they all explode in the same iteration (easy).
+* **Day 12** (Julia): Find the number of paths from start to end in a graph, allowing repeat
+    visits for "large caves" (capitalized), but either no (part 1) or at
+    most 2 (part 2) visits for "large caves" (lower case) (hard).
 
 To compile and run a Go program
 * Change into the directory with the program
