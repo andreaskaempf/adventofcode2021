@@ -33,6 +33,10 @@ This repository contains my entries for the Advent of Code 2021.
 * **Day 12** (Julia): Find the number of paths from start to end in a graph, allowing repeat
     visits for "large caves" (capitalized), but either no (part 1) or at
     most 2 (part 2) visits for "large caves" (lower case) (hard).
+* **Day 13** (Julia): Repeatedly "fold" a matrix of 1/0 values along 
+    horizontal or vertical lines, and (part 1) count up the number of 
+    points remaining after one fold, and (part 2) visualize the matrix
+    after all folds to yield a dot matrix alphabetic code.
 
 To compile and run a Go program
 * Change into the directory with the program
