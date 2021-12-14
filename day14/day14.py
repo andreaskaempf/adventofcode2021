@@ -6,6 +6,9 @@
 #
 # AK, 14/12/2021
 
+import time
+t0 = time.time()
+
 # Input file name
 f = 'sample.txt'
 f = 'input.txt'
@@ -97,4 +100,4 @@ for i in range(40):
 # Show final results
 print('\nFinal character counts:', counts)
 print('\nMax - min counts:', max(counts.values()) - min(counts.values()))
-
+print(time.time() - t0, 'secs')
