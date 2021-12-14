@@ -39,7 +39,7 @@ This repository contains my entries for the Advent of Code 2021.
     after all folds to yield a dot matrix alphabetic code.
 * **Day 14** (Python): Apply character insertion rules to a sequence of characters,
     by managing list of possible transitions rather than building up string
-    of characters (otherwise runs out of memory in Part 2).
+    of characters (otherwise runs out of memory in Part 2, hard).
 
 To compile and run a Go program
 * Change into the directory with the program
