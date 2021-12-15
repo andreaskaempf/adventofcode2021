@@ -41,6 +41,9 @@ are of course my own.
 * **Day 14** (Python): Apply character insertion rules to a sequence of characters,
     by managing list of possible transitions rather than building up string
     of characters (otherwise runs out of memory in Part 2, *hard*).
+* **Day 15** (Go, Julia): Find the lowest cost path through a graph, starting
+    at the top right, and ending up at the bottom right, adding up any cells 
+    you enter, so as to minimize total cost (*medium*).
 
 To compile and run a Go program
 * Change into the directory with the program
