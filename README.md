@@ -44,6 +44,9 @@ are of course my own.
 * **Day 15** (Go, Julia): Find the lowest cost path through a graph, starting
     at the top right, and ending up at the bottom right, adding up any cells 
     you enter, so as to minimize total cost (*medium*).
+* **Day 16** (Python): Parse hierarchy of binary codes into numeric literals
+    and operations. For part 2, recursively evaluate the resulting expression
+    using a LISP-like interpreter approach (*medium*).
 
 To compile and run a Go program
 * Change into the directory with the program
