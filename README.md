@@ -43,7 +43,8 @@ are of course my own.
     of characters (otherwise runs out of memory in Part 2, *hard*).
 * **Day 15** (Go, Julia): Find the lowest cost path through a graph, starting
     at the top right, and ending up at the bottom right, adding up any cells 
-    you enter, so as to minimize total cost (*medium*).
+    you enter, so as to minimize total cost; Go using graph library,
+    Julia with Dijstra shortest-path algorithm (*medium*).
 * **Day 16** (Python): Parse hierarchy of binary codes into numeric literals
     and operations. For part 2, recursively evaluate the resulting expression
     using a LISP-like interpreter approach (*medium*).
