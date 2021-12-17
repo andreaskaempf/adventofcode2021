@@ -1,7 +1,6 @@
 # Advent of Code 2021
 
-This repository contains my entries for the Advent of Code 2021; difficulty ratings
-are of course my own.
+My solutions for the Advent of Code 2021.
 
 * **Day 1** (C, Python): Count number of increases in a text file of lines (*easy*)
 * **Day 2** (Go, Python): Process the state of a submarine by interpreting 
@@ -22,8 +21,8 @@ are of course my own.
     a population of crabs that need to move there, under different 
     assumptions about fuel use per each crab's distance moved 
     (optimization problem, but used brute force -- *easy*).
-* **Day 8** (Julia): Decipher scrambled digits on a digital display (*very hard*,
-    failed using logic so solved using brute force)
+* **Day 8** (Julia): Decipher scrambled digits on a digital display 
+    (failed using logic so solved using brute force, *very hard*)
 * **Day 9** (Julia): Find lowest points in a 2-dimensional space, and the 
     areas around these low points, bounded by edges or 9s (*medium*).
 * **Day 10** (Python): Identify and resolve different types of mis-matched
@@ -42,12 +41,16 @@ are of course my own.
     by managing list of possible transitions rather than building up string
     of characters (otherwise runs out of memory in Part 2, *hard*).
 * **Day 15** (Go, Julia): Find the lowest cost path through a graph, starting
-    at the top right, and ending up at the bottom right, adding up any cells 
-    you enter, so as to minimize total cost; Go using graph library,
+    at the top left, and ending up at the bottom right, adding up any cells 
+    you enter along the path that minimizes total cost; Go using graph library,
     Julia with Dijstra shortest-path algorithm (*medium*).
 * **Day 16** (Python): Parse hierarchy of binary codes into numeric literals
     and operations. For part 2, recursively evaluate the resulting expression
     using a LISP-like interpreter approach (*medium*).
+* **Day 17** (Python): Simple projectile simulation, with search for
+    initial "velocities" that achieve highest position, and total
+    number of possible velocity values that reach target area; just 
+    used a simple grid search (*easy*).
 
 To compile and run a Go program
 * Change into the directory with the program
