@@ -6,16 +6,23 @@ import (
 )
 
 // Parse a string into a flat list of tokens. Assumes numbers
-// are only single digit, and commas are ignored.
+// are one or two digit (only single digit for input data, but double
+// digits needed for tests), and commas are ignored.
 func parse(s string) []byte {
+
 	res := []byte{}
+
 	for i := 0; i < len(s); i++ {
 		c := s[i]
 		if c == '[' || c == ']' {
 			res = append(res, c)
-		} else if c >= '0' && c <= '9' {
-			c := s[i] - '0'
-			res = append(res, c)
+		} else if isdigit(c) {
+			n := s[i] - '0'      // convert this digit to a number
+			if isdigit(s[i+1]) { // two digits?
+				n = n*10 + (s[i+1] - '0')
+				i++ // skip the second digit
+			}
+			res = append(res, n)
 		}
 	}
 	return res
@@ -99,11 +106,43 @@ func explode(expr []byte) ([]byte, bool) {
 	return res, true
 }
 
+// Go through expression, find any number >= 10, and split it. Returns
+// possibly change expression, and true/false if changed or not.
+func splitFirst(expr []byte) ([]byte, bool) {
+
+	// Find first number >= 10
+	ten := -1
+	for i := 0; i < len(expr); i++ {
+		if isnumber(expr[i]) && expr[i] >= 10 {
+			ten = i
+			break
+		}
+	}
+
+	// Return unchanged if none found
+	if ten == -1 {
+		fmt.Println("No >= 10 found")
+		return expr, false
+	}
+
+	// Split the number into [a b]
+	sexpr := splitNum(expr[ten])
+
+	// Insert the expression in place of the original number
+	res := []byte{}
+	res = append(res, expr[:ten]...)
+	res = append(res, sexpr...)
+	res = append(res, expr[ten+1:]...)
+
+	// Return the changed expression
+	return res, true
+}
+
 // "Split" a number: replace it with a pair; the left element of the pair
 // should be the regular number divided by two and rounded down, while the right
 // element of the pair should be the regular number divided by two and rounded up.
 // For example, 10 becomes [5,5], 11 becomes [5,6], 12 becomes [6,6], and so on.
-func split(n byte) []byte {
+func splitNum(n byte) []byte {
 	left := byte(math.Floor(float64(n) / 2))
 	right := byte(math.Ceil(float64(n) / 2))
 	return []byte{'[', left, right, ']'}
@@ -119,9 +158,14 @@ func removeBytes(s []byte, from int, nremove int) []byte {
 	return res
 }
 
-// If not a bracket, it's a number
+// If a token is not a bracket, it's a number
 func isnumber(b byte) bool {
 	return b != '[' && b != ']'
+}
+
+// Determine character is a digit
+func isdigit(c byte) bool {
+	return c >= '0' && c <= '9'
 }
 
 func main() {
