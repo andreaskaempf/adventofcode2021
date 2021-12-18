@@ -333,10 +333,51 @@ func magnitude(expr Expression) int {
 	return int(expr[0])
 }
 
+// For part 2, find the maximum magnitude from adding any two inputs in the file
+func part2(fname string) {
+
+	// Open file
+	f, err := os.Open(fname)
+	if err != nil {
+		fmt.Println("Could not open ", fname)
+		return
+	}
+
+	// Read and parse lines into an array
+	fmt.Println("Reading", fname)
+	lines := []Expression{}
+	scanner := bufio.NewScanner(f)
+	for scanner.Scan() {
+		t := scanner.Text()
+		expr := parse(t)
+		lines = append(lines, expr)
+	}
+
+	// Calculate all possibilities and find highest magnitude
+	best := 0
+	for _, x1 := range lines {
+		for _, x2 := range lines {
+			sum := add(x1, x2)
+			sum = reduce(sum)
+			mag := magnitude(sum)
+			if mag > best {
+				best = mag
+			}
+		}
+	}
+
+	// Show best found
+	fmt.Println("Part 2: Best pairwise magnitude found = ", best)
+}
+
 func main() {
 
 	// Part 1: Calculate the magnitude of the input file after "adding" and reducing all lines
 	expr := addUpFile("input.txt")
 	mag := magnitude(expr)
 	fmt.Println("Part 1: Magnitude = ", mag)
+
+	// Part 2: add up all pairs, find highest magnitude
+	//part2("sample2.txt")
+	part2("input.txt")
 }
