@@ -1,3 +1,15 @@
+// Advent of Code 2021, Day 18
+//
+// Calculate operations on nested lists of numbers, first
+// "adding" (concatenating them), then reducing them according
+// to arcane rules. Part 1: add up each line in file, reducing
+// after each line, and report the final "magnitude" (calculated
+// by recursively collapsing inner pairs of numbers). For Part 2,
+// find the pair of input lines which, when added together and
+// "reduced", yield the highest magnitude.
+//
+// AK, 18/12/2021
+
 package main
 
 import (
@@ -242,19 +254,19 @@ func addUpFile(fname string) Expression {
 		// Read line
 		t := scanner.Text()
 		lineNo += 1
-		fmt.Printf("\nLine %d: %s\n", lineNo, t)
+		//fmt.Printf("\nLine %d: %s\n", lineNo, t)
 
 		// Parse the line (does not need to be reduced)
 		expr := parse(t)
-		fmt.Print("Parsed: ")
-		printExpr(expr)
+		//fmt.Print("Parsed: ")
+		//printExpr(expr)
 
 		// If not first line, add it to previous and reduce
 		if lineNo > 1 {
 			last = add(last, expr)
 			last = reduce(last)
-			fmt.Print("Added and reduced: ")
-			printExpr(last)
+			//fmt.Print("Added and reduced: ")
+			//printExpr(last)
 		} else {
 			last = expr
 		}
@@ -327,8 +339,8 @@ func magnitude(expr Expression) int {
 		}
 	}
 
-	fmt.Print("After calculating magnitude: ")
-	printExpr(expr)
+	//fmt.Print("After calculating magnitude: ")
+	//printExpr(expr)
 
 	return int(expr[0])
 }
@@ -344,7 +356,6 @@ func part2(fname string) {
 	}
 
 	// Read and parse lines into an array
-	fmt.Println("Reading", fname)
 	lines := []Expression{}
 	scanner := bufio.NewScanner(f)
 	for scanner.Scan() {
@@ -367,17 +378,18 @@ func part2(fname string) {
 	}
 
 	// Show best found
-	fmt.Println("Part 2: Best pairwise magnitude found = ", best)
+	fmt.Println("Part 2: Best pairwise magnitude found =", best)
 }
 
 func main() {
 
-	// Part 1: Calculate the magnitude of the input file after "adding" and reducing all lines
-	expr := addUpFile("input.txt")
+	// Part 1: Calculate the magnitude of the input file after "adding" and
+	// reducing all lines
+	fname := "input.txt" // "sample2.txt"
+	expr := addUpFile(fname)
 	mag := magnitude(expr)
-	fmt.Println("Part 1: Magnitude = ", mag)
+	fmt.Println("Part 1: Magnitude =", mag)
 
 	// Part 2: add up all pairs, find highest magnitude
-	//part2("sample2.txt")
-	part2("input.txt")
+	part2(fname)
 }

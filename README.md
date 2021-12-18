@@ -51,6 +51,13 @@ My solutions for the Advent of Code 2021.
     initial "velocities" that achieve highest position, and total
     number of possible velocity values that reach target area; just 
     used a simple grid search (*easy*).
+* **Day 18** (Go): Calculate operations on nested lists of numbers, first
+    "adding" (concatenating them), then reducing them according
+    to arcane rules. Part 1: add up each line in file, reducing
+    after each line, and report the final "magnitude" (calculated
+    by recursively collapsing inner pairs of numbers). For Part 2,
+    find the pair of input lines which, when added together and
+    "reduced", yield the highest magnitude (*hard*).
 
 To compile and run a Go program
 * Change into the directory with the program

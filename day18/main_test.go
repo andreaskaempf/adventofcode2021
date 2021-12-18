@@ -1,4 +1,8 @@
-// Unit tests for Day 18
+// Advent of Code 2021, Day 18
+//
+// These are the unit tests for Day 18
+//
+// AK, 18/12/2021
 
 package main
 
@@ -194,7 +198,8 @@ func TestFileMag(t *testing.T) {
 	}
 }
 
-// Compare two byte arrays
+// Compare two int arrays element-by-element, and report
+// if they are the same
 func same(a Expression, b Expression) bool {
 	if len(a) != len(b) {
 		return false
