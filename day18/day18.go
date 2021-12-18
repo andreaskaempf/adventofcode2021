@@ -7,21 +7,32 @@ import (
 	"os"
 )
 
+// An expression is just an array of numbers, with ASCII values for
+// brackets, or numbers. Need to use int rather than just bytes
+// because we reduce them and add up at the end to calculate
+// "magnitude" and bytes aren't big enough.
+type Expression []int
+
+const LB = 91
+const RB = 93
+
 // Parse a string into a flat list of tokens. Assumes numbers
 // are one or two digit (only single digit for input data, but double
 // digits needed for tests), and commas are ignored.
-func parse(s string) []byte {
+func parse(s string) Expression {
 
-	res := []byte{}
+	res := Expression{}
 
 	for i := 0; i < len(s); i++ {
 		c := s[i]
-		if c == '[' || c == ']' {
-			res = append(res, c)
-		} else if isdigit(c) {
-			n := s[i] - '0'      // convert this digit to a number
+		if c == '[' {
+			res = append(res, LB)
+		} else if c == ']' {
+			res = append(res, RB)
+		} else if isdigit(s[i]) {
+			n := int(s[i] - '0') // convert this digit to a number
 			if isdigit(s[i+1]) { // two digits?
-				n = n*10 + (s[i+1] - '0')
+				n = n*10 + int(s[i+1]-'0')
 				i++ // skip the second digit
 			}
 			res = append(res, n)
@@ -31,28 +42,30 @@ func parse(s string) []byte {
 }
 
 // Print a tokenized expression
-func printExpr(expr []byte) {
+func printExpr(expr Expression) {
 	for _, b := range expr {
-		if b == '[' || b == ']' {
-			fmt.Print(string(b), " ")
+		if b == LB {
+			fmt.Print("[ ")
+		} else if b == RB {
+			fmt.Print("] ")
 		} else {
-			fmt.Print(int(b), " ")
+			fmt.Print(b, " ")
 		}
 	}
 	fmt.Print("\n")
 }
 
 // "Add" two tokenized expressions, but putting both inside a list
-func add(a []byte, b []byte) []byte {
-	res := []byte{}
-	res = append(res, '[')
+func add(a Expression, b Expression) Expression {
+	res := Expression{}
+	res = append(res, LB)
 	for _, c := range a {
 		res = append(res, c)
 	}
 	for _, c := range b {
 		res = append(res, c)
 	}
-	res = append(res, ']')
+	res = append(res, RB)
 	return res
 }
 
@@ -63,18 +76,18 @@ func add(a []byte, b []byte) []byte {
 // 4. Replace the pair (including brackets) with the number zero
 // Returns the (possibly changed) expression, and true/false indicating
 // whether a change was made.
-func explode(expr []byte) ([]byte, bool) {
+func explode(expr Expression) (Expression, bool) {
 
 	// Find the first pair of numbers that is within 4 outer pairs
 	level := 0
 	pair := -1 // location of explodable pair if found
 	for i, b := range expr {
-		if level == 4 && b == '[' && isnumber(expr[i+1]) && isnumber(expr[i+2]) && expr[i+3] == ']' {
+		if level == 4 && b == LB && isnumber(expr[i+1]) && isnumber(expr[i+2]) && expr[i+3] == RB {
 			pair = i
 			break
-		} else if b == '[' {
+		} else if b == LB {
 			level += 1
-		} else if b == ']' {
+		} else if b == RB {
 			level -= 1
 		}
 	}
@@ -104,7 +117,7 @@ func explode(expr []byte) ([]byte, bool) {
 
 	// Now replace the four characters of the original pair with a zero
 	expr[pair] = 0
-	res := []byte{}
+	res := Expression{}
 	for i := 0; i < len(expr); i++ {
 		if i <= pair || i > pair+3 {
 			res = append(res, expr[i])
@@ -115,7 +128,7 @@ func explode(expr []byte) ([]byte, bool) {
 
 // Go through expression, find any number >= 10, and split it. Returns
 // possibly change expression, and true/false if changed or not.
-func splitFirst(expr []byte) ([]byte, bool) {
+func splitFirst(expr Expression) (Expression, bool) {
 
 	// Find first number >= 10
 	ten := -1
@@ -136,7 +149,7 @@ func splitFirst(expr []byte) ([]byte, bool) {
 	sexpr := splitNum(expr[ten])
 
 	// Insert the expression in place of the original number
-	res := []byte{}
+	res := Expression{}
 	res = append(res, expr[:ten]...)
 	res = append(res, sexpr...)
 	res = append(res, expr[ten+1:]...)
@@ -146,10 +159,10 @@ func splitFirst(expr []byte) ([]byte, bool) {
 }
 
 // Reduce a list, by successively exploding and splitting
-func reduce(expr []byte) []byte {
+func reduce(expr Expression) Expression {
 
 	// Repeat until no more changes
-	var res []byte
+	var res Expression
 	res = append(res, expr...)
 	done := false
 	for !done {
@@ -188,34 +201,28 @@ func reduce(expr []byte) []byte {
 // should be the regular number divided by two and rounded down, while the right
 // element of the pair should be the regular number divided by two and rounded up.
 // For example, 10 becomes [5,5], 11 becomes [5,6], 12 becomes [6,6], and so on.
-func splitNum(n byte) []byte {
-	left := byte(math.Floor(float64(n) / 2))
-	right := byte(math.Ceil(float64(n) / 2))
-	return []byte{'[', left, right, ']'}
-}
-
-// Remove elements from a slice
-// res := append(expr[:pair+1], expr[pair+4]...)
-func removeBytes(s []byte, from int, nremove int) []byte {
-	res := s[:from]
-	for i := from + nremove; i < len(s); i++ {
-		res = append(res, s[i])
-	}
-	return res
+func splitNum(n int) Expression {
+	left := int(math.Floor(float64(n) / 2))
+	right := int(math.Ceil(float64(n) / 2))
+	return Expression{LB, left, right, RB}
 }
 
 // If a token is not a bracket, it's a number
-func isnumber(b byte) bool {
-	return b != '[' && b != ']'
+func isnumber_(b byte) bool {
+	return b != LB && b != RB
+}
+func isnumber(b int) bool {
+	return b != LB && b != RB
 }
 
 // Determine character is a digit
 func isdigit(c byte) bool {
+	//return c >= 48 && c <= 57
 	return c >= '0' && c <= '9'
 }
 
 // Add up lines of a file and return final expression, nil if error
-func addUpFile(fname string) []byte {
+func addUpFile(fname string) Expression {
 
 	// Open file
 	f, err := os.Open(fname)
@@ -225,7 +232,7 @@ func addUpFile(fname string) []byte {
 	}
 
 	// The current result
-	var last []byte
+	var last Expression
 
 	// Read each line of input file
 	scanner := bufio.NewScanner(f)
@@ -257,14 +264,79 @@ func addUpFile(fname string) []byte {
 	return last
 }
 
+// To check whether it's the right answer, the snailfish teacher only checks
+// the magnitude of the final sum. The magnitude of a pair is 3 times the
+// magnitude of its left element plus 2 times the magnitude of its right
+// element. The magnitude of a regular number is just that number.
+//
+// For example, the magnitude of [9,1] is 3*9 + 2*1 = 29;
+// the magnitude of [1,9] is 3*1 + 2*9 = 21.
+// Magnitude calculations are recursive:
+// the magnitude of [[9,1],[1,9]] is 3*29 + 2*21 = 129.
+//
+// Here are a few more magnitude examples:
+//
+// [[1,2],[[3,4],5]] becomes 143.
+// [[[[0,7],4],[[7,8],[6,0]]],[8,1]] becomes 1384.
+// [[[[1,1],[2,2]],[3,3]],[4,4]] becomes 445.
+// [[[[3,0],[5,3]],[4,4]],[5,5]] becomes 791.
+// [[[[5,0],[7,4]],[5,5]],[6,6]] becomes 1137.
+// [[[[8,7],[7,7]],[[8,6],[7,7]]],[[[0,7],[6,6]],[8,7]]] becomes 3488.
+
+func magnitude(expr Expression) int {
+
+	// The magnitude of a pair is 3 times the magnitude of its left element
+	// plus 2 times the magnitude of its right element. The magnitude of a
+	// regular number is just that number.
+
+	// Find inner pairs, and reduce them to a number, repeating
+	// until no more pairs
+	for true {
+
+		// Find the first pair of numbers
+		pair := -1 // location of pair if found
+		for i := 0; i < len(expr); i++ {
+			b := expr[i]
+			if len(expr)-i >= 4 && b == LB && isnumber(expr[i+1]) && isnumber(expr[i+2]) && expr[i+3] == RB {
+				pair = i
+				break
+			}
+		}
+
+		// If a pair found, replace it with magnitude calculation
+		if pair < 0 { // if no pair found, stop here
+			break
+		} else {
+
+			// Calculate the magnitude of this pair
+			left := expr[pair+1]
+			right := expr[pair+2]
+			mag := left*3 + right*2
+
+			// Put it in the first position of the original pair
+			expr[pair] = mag
+
+			// Remove the rest of the original pair from the expression
+			res := Expression{}
+			for i := 0; i < len(expr); i++ {
+				if i <= pair || i > pair+3 {
+					res = append(res, expr[i])
+				}
+			}
+			expr = res
+		}
+	}
+
+	fmt.Print("After calculating magnitude: ")
+	printExpr(expr)
+
+	return int(expr[0])
+}
+
 func main() {
 
-	expr := addUpFile("sample1.txt")
-	printExpr(expr)
-	fmt.Println("sample1.txt: [[[[8,7],[7,7]],[[8,6],[7,7]]],[[[0,7],[6,6]],[8,7]]]")
-
-	expr = addUpFile("sample2.txt")
-	printExpr(expr)
-	fmt.Println("sample2.txt: [[[[6,6],[7,6]],[[7,7],[7,0]]],[[[7,7],[7,7]],[[7,8],[9,9]]]]")
-
+	// Part 1: Calculate the magnitude of the input file after "adding" and reducing all lines
+	expr := addUpFile("input.txt")
+	mag := magnitude(expr)
+	fmt.Println("Part 1: Magnitude = ", mag)
 }

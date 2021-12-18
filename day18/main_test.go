@@ -11,13 +11,13 @@ import (
 func TestParse(t *testing.T) {
 
 	// Test parsing a simple expression
-	shouldBe1 := []byte{'[', 1, 2, ']'}
+	shouldBe1 := []int{LB, 1, 2, RB}
 	if !same(parse("[1,2]"), shouldBe1) {
 		t.Error("Unable to parse [1,2]")
 	}
 
 	// For test cases, we need to be able to parse two-digit numbers
-	if !same(parse("[13]"), []byte{'[', 13, ']'}) {
+	if !same(parse("[13]"), []int{LB, 13, RB}) {
 		t.Error("Unable to parse [13]")
 	}
 }
@@ -148,8 +148,54 @@ func TestAddUp(t *testing.T) {
 	}
 }
 
+// Test magnitude
+
+// To check whether it's the right answer, the snailfish teacher only checks
+// the magnitude of the final sum. The magnitude of a pair is 3 times the
+// magnitude of its left element plus 2 times the magnitude of its right
+// element. The magnitude of a regular number is just that number.
+//
+// For example, the magnitude of [9,1] is 3*9 + 2*1 = 29;
+// the magnitude of [1,9] is 3*1 + 2*9 = 21.
+// Magnitude calculations are recursive:
+// the magnitude of [[9,1],[1,9]] is 3*29 + 2*21 = 129.
+//
+// Here are a few more magnitude examples:
+//
+// [[1,2],[[3,4],5]] becomes 143.
+// [[[[0,7],4],[[7,8],[6,0]]],[8,1]] becomes 1384.
+// [[[[1,1],[2,2]],[3,3]],[4,4]] becomes 445.
+// [[[[3,0],[5,3]],[4,4]],[5,5]] becomes 791.
+// [[[[5,0],[7,4]],[5,5]],[6,6]] becomes 1137.
+// [[[[8,7],[7,7]],[[8,6],[7,7]]],[[[0,7],[6,6]],[8,7]]] becomes 3488.
+
+func TestMagnitude(t *testing.T) {
+
+	if magnitude(parse("[9,1]")) != 29 {
+		t.Error("Unable to calc magnitude (1)")
+	}
+
+	if magnitude(parse("[[9,1],[1,9]]")) != 129 {
+		t.Error("Unable to calc magnitude (2)")
+	}
+
+	if magnitude(parse("[[[[8,7],[7,7]],[[8,6],[7,7]]],[[[0,7],[6,6]],[8,7]]]")) != 3488 {
+		t.Error("Unable to calc magnitude (3)")
+	}
+}
+
+// Test magnitude of an input file
+func TestFileMag(t *testing.T) {
+
+	expr := addUpFile("sample2.txt")
+	mag := magnitude(expr)
+	if mag != 4140 {
+		t.Error("Unable to calculate magnitude of sample2.txt")
+	}
+}
+
 // Compare two byte arrays
-func same(a []byte, b []byte) bool {
+func same(a Expression, b Expression) bool {
 	if len(a) != len(b) {
 		return false
 	}
