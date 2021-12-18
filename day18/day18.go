@@ -1,8 +1,10 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"math"
+	"os"
 )
 
 // Parse a string into a flat list of tokens. Assumes numbers
@@ -155,8 +157,8 @@ func reduce(expr []byte) []byte {
 		// Try explode
 		res1, exploded := explode(res)
 		if exploded {
-			fmt.Print("After explode: ")
-			printExpr(res1)
+			//fmt.Print("After explode: ")
+			//printExpr(res1)
 			res = nil
 			res = append(res, res1...)
 			continue
@@ -165,8 +167,8 @@ func reduce(expr []byte) []byte {
 		// Otherwise, try split
 		res2, splitted := splitFirst(res)
 		if splitted {
-			fmt.Print("After split: ")
-			printExpr(res2)
+			//fmt.Print("After split: ")
+			//printExpr(res2)
 			res = nil
 			res = append(res, res2...)
 			continue
@@ -177,8 +179,8 @@ func reduce(expr []byte) []byte {
 	}
 
 	// Return result of reduction
-	fmt.Print("Final result: ")
-	printExpr(res)
+	//fmt.Print("Final result: ")
+	//printExpr(res)
 	return res
 }
 
@@ -212,6 +214,57 @@ func isdigit(c byte) bool {
 	return c >= '0' && c <= '9'
 }
 
+// Add up lines of a file and return final expression, nil if error
+func addUpFile(fname string) []byte {
+
+	// Open file
+	f, err := os.Open(fname)
+	if err != nil {
+		fmt.Println("Could not open ", fname)
+		return nil
+	}
+
+	// The current result
+	var last []byte
+
+	// Read each line of input file
+	scanner := bufio.NewScanner(f)
+	lineNo := 0
+	for scanner.Scan() {
+
+		// Read line
+		t := scanner.Text()
+		lineNo += 1
+		fmt.Printf("\nLine %d: %s\n", lineNo, t)
+
+		// Parse the line (does not need to be reduced)
+		expr := parse(t)
+		fmt.Print("Parsed: ")
+		printExpr(expr)
+
+		// If not first line, add it to previous and reduce
+		if lineNo > 1 {
+			last = add(last, expr)
+			last = reduce(last)
+			fmt.Print("Added and reduced: ")
+			printExpr(last)
+		} else {
+			last = expr
+		}
+	}
+
+	// Return final expression
+	return last
+}
+
 func main() {
-	fmt.Println("Day 18")
+
+	expr := addUpFile("sample1.txt")
+	printExpr(expr)
+	fmt.Println("sample1.txt: [[[[8,7],[7,7]],[[8,6],[7,7]]],[[[0,7],[6,6]],[8,7]]]")
+
+	expr = addUpFile("sample2.txt")
+	printExpr(expr)
+	fmt.Println("sample2.txt: [[[[6,6],[7,6]],[[7,7],[7,0]]],[[[7,7],[7,7]],[[7,8],[9,9]]]]")
+
 }

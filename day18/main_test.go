@@ -132,6 +132,22 @@ func TestReduce(t *testing.T) {
 	}
 }
 
+// Test adding up lines from a file
+func TestAddUp(t *testing.T) {
+
+	res1 := addUpFile("sample1.txt")
+	sb1 := parse("[[[[8,7],[7,7]],[[8,6],[7,7]]],[[[0,7],[6,6]],[8,7]]]")
+	if !same(res1, sb1) {
+		t.Error("Unable to add up sample1.txt")
+	}
+
+	res2 := addUpFile("sample2.txt")
+	sb2 := parse("[[[[6,6],[7,6]],[[7,7],[7,0]]],[[[7,7],[7,7]],[[7,8],[9,9]]]]")
+	if !same(res2, sb2) {
+		t.Error("Unable to add up sample2.txt")
+	}
+}
+
 // Compare two byte arrays
 func same(a []byte, b []byte) bool {
 	if len(a) != len(b) {
