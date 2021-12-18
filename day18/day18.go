@@ -83,7 +83,7 @@ func explode(expr []byte) ([]byte, bool) {
 	}
 
 	// Find the first number to the left and add left side of pair to it
-	for j := pair - 1; j >= 0; j++ {
+	for j := pair - 1; j >= 0; j-- {
 		if isnumber(expr[j]) {
 			expr[j] += expr[pair+1]
 			break
@@ -102,7 +102,12 @@ func explode(expr []byte) ([]byte, bool) {
 
 	// Now replace the four characters of the original pair with a zero
 	expr[pair] = 0
-	res := removeBytes(expr, pair+1, 3)
+	res := []byte{}
+	for i := 0; i < len(expr); i++ {
+		if i <= pair || i > pair+3 {
+			res = append(res, expr[i])
+		}
+	}
 	return res, true
 }
 
@@ -121,7 +126,7 @@ func splitFirst(expr []byte) ([]byte, bool) {
 
 	// Return unchanged if none found
 	if ten == -1 {
-		fmt.Println("No >= 10 found")
+		//fmt.Println("No >= 10 found")
 		return expr, false
 	}
 
@@ -136,6 +141,45 @@ func splitFirst(expr []byte) ([]byte, bool) {
 
 	// Return the changed expression
 	return res, true
+}
+
+// Reduce a list, by successively exploding and splitting
+func reduce(expr []byte) []byte {
+
+	// Repeat until no more changes
+	var res []byte
+	res = append(res, expr...)
+	done := false
+	for !done {
+
+		// Try explode
+		res1, exploded := explode(res)
+		if exploded {
+			fmt.Print("After explode: ")
+			printExpr(res1)
+			res = nil
+			res = append(res, res1...)
+			continue
+		}
+
+		// Otherwise, try split
+		res2, splitted := splitFirst(res)
+		if splitted {
+			fmt.Print("After split: ")
+			printExpr(res2)
+			res = nil
+			res = append(res, res2...)
+			continue
+		}
+
+		// Otherwise done
+		done = true
+	}
+
+	// Return result of reduction
+	fmt.Print("Final result: ")
+	printExpr(res)
+	return res
 }
 
 // "Split" a number: replace it with a pair; the left element of the pair
@@ -169,5 +213,5 @@ func isdigit(c byte) bool {
 }
 
 func main() {
-
+	fmt.Println("Day 18")
 }

@@ -3,7 +3,7 @@
 package main
 
 import (
-	//"fmt"
+	"fmt"
 	"testing"
 )
 
@@ -110,6 +110,25 @@ func TestSplit(t *testing.T) {
 	res2, yes2 := splitFirst(x2)
 	if !(yes2 && same(res2, sb2)) {
 		t.Error("Unable to split first (2)")
+	}
+}
+
+// Test reduce
+func TestReduce(t *testing.T) {
+
+	// Adding then reducing [[[[4,3],4],4],[7,[[8,4],9]]] + [1,1]
+	// gives [[[[0,7],4],[[7,8],[6,0]]],[8,1]]
+	x1 := parse("[[[[4,3],4],4],[7,[[8,4],9]]]")
+	x2 := parse("[1,1]")
+	x3 := add(x1, x2)
+	res := reduce(x3)
+	sb := parse("[[[[0,7],4],[[7,8],[6,0]]],[8,1]]")
+	if !same(res, sb) {
+		t.Error("Unable to reduce")
+		fmt.Print("Result: ")
+		printExpr(res)
+		fmt.Print("Should be: ")
+		printExpr(sb)
 	}
 }
 
