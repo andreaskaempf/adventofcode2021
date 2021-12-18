@@ -61,6 +61,23 @@ func TestExplode(t *testing.T) {
 	}
 }
 
+func TestSplit(t *testing.T) {
+
+	// 10 becomes [5,5]
+	if !same(split(10), parse("[5,5]")) {
+		t.Error("Unable to split (1)")
+	}
+
+	// 11 becomes [5,6]
+	if !same(split(11), parse("[5,6]")) {
+		t.Error("Unable to split (2)")
+	}
+	// 12 becomes [6,6]
+	if !same(split(12), parse("[6,6]")) {
+		t.Error("Unable to split (3)")
+	}
+}
+
 // Compare two byte arrays
 func same(a []byte, b []byte) bool {
 	if len(a) != len(b) {

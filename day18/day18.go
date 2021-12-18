@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"math"
+)
 
 // Parse a string into a flat list of tokens. Assumes numbers
 // are only single digit, and commas are ignored.
@@ -94,6 +97,16 @@ func explode(expr []byte) ([]byte, bool) {
 	expr[pair] = 0
 	res := removeBytes(expr, pair+1, 3)
 	return res, true
+}
+
+// "Split" a number: replace it with a pair; the left element of the pair
+// should be the regular number divided by two and rounded down, while the right
+// element of the pair should be the regular number divided by two and rounded up.
+// For example, 10 becomes [5,5], 11 becomes [5,6], 12 becomes [6,6], and so on.
+func split(n byte) []byte {
+	left := byte(math.Floor(float64(n) / 2))
+	right := byte(math.Ceil(float64(n) / 2))
+	return []byte{'[', left, right, ']'}
 }
 
 // Remove elements from a slice
