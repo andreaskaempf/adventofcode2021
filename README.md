@@ -58,6 +58,10 @@ My solutions for the Advent of Code 2021.
     by recursively collapsing inner pairs of numbers). For Part 2,
     find the pair of input lines which, when added together and
     "reduced", yield the highest magnitude (*hard*).
+* **Day 19** (Go): Match up 3-dimensional cubes in space, adjusting x,y,z offset and also
+    rotation along any 3 axes, so that at least 12 points in the each
+    pair of cubes line up exactly. Then, calculate the maximum distance
+    between the cubes (*hard*).
 
 To compile and run a Go program
 * Change into the directory with the program
