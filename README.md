@@ -58,10 +58,20 @@ My solutions for the Advent of Code 2021.
     by recursively collapsing inner pairs of numbers). For Part 2,
     find the pair of input lines which, when added together and
     "reduced", yield the highest magnitude (*hard*).
-* **Day 19** (Go): Match up 3-dimensional cubes in space, adjusting x,y,z offset and also
-    rotation along any 3 axes, so that at least 12 points in the each
-    pair of cubes line up exactly. Then, calculate the maximum distance
-    between the cubes (*hard*).
+* **Day 19** (Go): Match up 3-dimensional cubes in space, adjusting x,y,z
+    offset and also rotation along any 3 axes, so that at least 12 points in
+    the each pair of cubes line up exactly. Then, calculate the maximum
+    distance between the cubes (*hard*).
+* **Day 20** (Julia): Transform an image by successively replacing pixels with
+    values looked up from a translation table, the index being the value of the
+    9 cells surrounding each pixel, converted from binary to decimal. Much
+    complicated by the fact that the input data has a 1 in the first position
+    of the translation table, meaning that empty areas are filled with 1s,
+    which muck up the pixel count (*hard*).
+* **Day 21** (Go): Simulate a game of rolling dice and moving round a board,
+    trivial in part 1. In part 2, fork a set of parallel "universes" with
+    identical state after every throw of a 3-sided die, and get
+    the number of universes in which the winner won (*hard*).
 
 To compile and run a Go program
 * Change into the directory with the program
