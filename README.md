@@ -72,7 +72,9 @@ My solutions for the Advent of Code 2021.
     trivial in part 1. In part 2, fork a set of parallel "universes" with
     identical state after every throw of a 3-sided die, and get
     the number of universes in which the winner won (*hard*).
-* **Day 22**: *Not done yet*
+* **Day 22** (Go): Turn on/off points in space, defined by 3-d ranges (like
+    rectangular cubes). Part 1 quite *easy*, but solution did not scale to Part
+    2, so that is still pending. (*Incomplete*)
 * **Day 23** (Go): Find the most economical solution to a board game, involving
     4 (later 8) pieces from random starting tunnels to ordered destination
     tunnels via a corridor, sort of like the Towers of Hanoi. Solved the first
@@ -80,8 +82,8 @@ My solutions for the Advent of Code 2021.
     eliminating branches that exceeded best solution found so far (*hard*).
 * **Day 24**: *Not done yet*
 * **Day 25**: Simulation of "sea cucumber" particle movement, iterating until
-    the system reaches a stable state (i.e., no more changes). Part 1 (*easy*),
-    but Part 2 only granted when have completed all previous problems.
+    the system reaches a stable state (i.e., no more changes). Part 1 done
+    (*easy*), but Part 2 requires having completed all previous problems.
 
 To compile and run a Go program
 * Change into the directory with the program
