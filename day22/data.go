@@ -5,24 +5,25 @@ package main
 import (
 	"bufio"
 	"os"
+	"strconv"
 	"strings"
 )
 
-// An instruction
-type Instruction struct {
-	onOff                  int64
-	x0, x1, y0, y1, z0, z1 int64
+// An 3D space, with on/off state
+type Cube struct {
+	onOff                  int32 // cube turned on by instruction
+	x0, x1, y0, y1, z0, z1 int32
 }
 
-// A point in space
+// A point in space (only used in Part 1)
 type Point struct {
-	x, y, z int64
+	x, y, z int32
 }
 
 // Read "instructions" from an input file
-func readData(fname string) []Instruction {
+func readData(fname string) []Cube {
 
-	insts := []Instruction{}
+	insts := []Cube{}
 
 	// Read each line of input file, each looking like:
 	// on x=11..13,y=11..13,z=11..13
@@ -33,7 +34,7 @@ func readData(fname string) []Instruction {
 		t := scanner.Text()
 
 		// on/off beginning of line
-		instr := Instruction{}
+		instr := Cube{}
 		parts := strings.Split(t, " ")
 		if parts[0] == "on" {
 			instr.onOff = 1
@@ -61,4 +62,13 @@ func readData(fname string) []Instruction {
 		insts = append(insts, instr)
 	}
 	return insts
+}
+
+// Parse an integer
+func atoi(s string) int32 {
+	i, err := strconv.ParseInt(s, 10, 64)
+	if err != nil {
+		panic("Bad number")
+	}
+	return int32(i)
 }

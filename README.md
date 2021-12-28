@@ -73,8 +73,9 @@ My solutions for the Advent of Code 2021.
     identical state after every throw of a 3-sided die, and get
     the number of universes in which the winner won (*hard*).
 * **Day 22** (Go): Turn on/off points in space, defined by 3-d ranges (like
-    rectangular cubes). Part 1 quite *easy*, but solution did not scale to Part
-    2, so that is still pending. (*Incomplete*)
+    rectangular cubes). Part 1 quite *easy* (basically used brute force), but
+    for Part 2 used recursive evaluation of volumes solution subtracting
+    intersections (*hard*).
 * **Day 23** (Go): Find the most economical solution to a board game, involving
     4 (later 8) pieces from random starting tunnels to ordered destination
     tunnels via a corridor, sort of like the Towers of Hanoi. Solved the first
