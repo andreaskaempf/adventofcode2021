@@ -5,6 +5,10 @@
 // codes that are valid, i.e, leave a "z" register at zero after the
 // computations.
 //
+// Not a good solution, used brute force with Go parallelization and some
+// pruning of solutions, came up with the right answers but not efficient
+// or clever.
+//
 // AK, 29 December 2021
 
 package main

@@ -82,9 +82,10 @@ My solutions for the Advent of Code 2021.
     part (8 pieces) on paper, second part using recursive depth-first search,
     eliminating branches that exceeded best solution found so far (*hard*).
 * **Day 24** (Go): Check whether a 14-digit code is valid based on
-    assembly-language like series of computations, and find the highest (Part
-    1) or lowest (Part 2) codes that are valid, i.e, leave a "z" register at
-    zero after the computations.
+    assembly-language like series of computations, and find the highest (Part 1) 
+    or lowest (Part 2) codes that are valid, i.e, leave a "z" register at
+    zero after the computations (*very hard*, used brute force with parallelization
+    and some pruning of solutions, not a real solution).
 * **Day 25**: Simulation of "sea cucumber" particle movement, iterating until
     the system reaches a stable state (i.e., no more changes). Part 1 done
     (*easy*), and Part 2 granted after completing all previous problems.
