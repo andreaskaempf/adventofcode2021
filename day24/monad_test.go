@@ -37,4 +37,45 @@ func TestMonads(t *testing.T) {
 		}*/
 	}
 
+	// Two known solutions
+	d1 := intToDigits(92915979999498)
+	d2 := intToDigits(21611513911181)
+	if monad3(d1, false) != 0 {
+		t.Error("monad3 failed (1)")
+	}
+	if monad3(d2, false) != 0 {
+		t.Error("monad3 failed (2)")
+	}
+}
+
+func TestConvert(t *testing.T) {
+
+	if !same(intToDigits(123), []int{1, 2, 3}) {
+		t.Error("intToDigits failed")
+	}
+
+	if digitsToString([]int{1, 2, 3}) != "123" {
+		fmt.Println([]int{1, 2, 3}, " -> ", digitsToString([]int{1, 2, 3}))
+		t.Error("digitsToString failed")
+	}
+}
+
+func TestIncrement(t *testing.T) {
+	if !same(increment([]int{1, 2, 3}), []int{1, 2, 4}) {
+		t.Error("Increment failed (1)")
+	}
+	if !same(increment([]int{1, 9, 9}), []int{2, 1, 1}) {
+		t.Error("Increment failed (2)")
+	}
+}
+
+func TestDecrement(t *testing.T) {
+	if !same(decrement([]int{1, 2, 3}), []int{1, 2, 2}) {
+		fmt.Println([]int{1, 2, 3}, "->", decrement([]int{1, 2, 3}))
+		t.Error("Decrement failed (1)")
+	}
+	if !same(decrement([]int{2, 1, 1}), []int{1, 9, 9}) {
+		fmt.Println([]int{2, 1, 1}, "->", decrement([]int{2, 1, 1}))
+		t.Error("Decrement failed (2)")
+	}
 }

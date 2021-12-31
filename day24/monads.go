@@ -3,8 +3,13 @@
 // calculation, see day24.go for the final version, which is much
 // simplified, and eliminates the need to keep track of x and y
 // (only z is maintained between iterations).
+//
+// So this file is not required for the solution, just kept as
+// back-up.
 
 package main
+
+import "fmt"
 
 // Conversion of the full problem input into Go, using search and replace
 func monad1(inpString string) map[string]int {
@@ -344,4 +349,30 @@ func monad2(inpString string) map[string]int {
 
 	// Input is valid if z is zero at the end
 	return map[string]int{"w": w, "x": x, "y": y, "z": z} //z == 0
+}
+
+// Parse string of 14 digits into an array of integers,
+// return empty slice if not valid (i.e., not 14 long,
+// not all digits, or contains zeros)
+func parseInput(input string) []int {
+
+	// Convert the input into an array of digits
+	result := []int{}
+	for i := 0; i < len(input); i++ {
+		n := int(input[i] - '0')
+		if n < 1 || n > 9 {
+			fmt.Println("Invalid digit:", input)
+			return []int{}
+		}
+		result = append(result, n)
+	}
+
+	// Check length (can't do this on string because of runes)
+	if len(result) != 14 {
+		fmt.Println("Invalid length:", input)
+		return []int{}
+	}
+
+	// Okay
+	return result
 }
