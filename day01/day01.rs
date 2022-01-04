@@ -13,34 +13,24 @@ use std::fs;
 
 fn main() {
 
-    // Read file as one string
-    let fname = "input.txt".to_string(); 
+    // Read file as one string, convert to list of numbers
+    let fname = "input.txt";
     println!("Reading {}", fname);
-    let data = fs::read_to_string(&fname)
-        .expect("Error reading file");
-
-    // Split by newlines
-    let lines: Vec<&str> = data.split("\n").collect();
-    println!("{} lines", lines.len());
-
-    // Convert to list of numbers
-    let mut nums: Vec<i32> = Vec::new();
-    for l in lines {
-        let n = parse_int(l);
-        if n  >= 0 {  // i.e., no parse error
-            nums.push(n);
-        }
-    }
+    let data = read_lines(fname);
+    let nums = lines_to_integers(&data);
     println!("{} numbers", nums.len());
 
     // Part 1: Count the number of increases
     let mut prev_n = -1;    // to avoid counting the first number as an increase
     let mut increases = 0;
-    for n in &nums {                     // need to use & on vector of ints!!!
-        if prev_n >= 0 && n > &prev_n {  // need & for second use of prev_n!!! wtf???
+    let mut i = 0;
+    while i < nums.len() {
+        let n = nums[i]; 
+        if prev_n >= 0 && n > prev_n { 
             increases += 1;
         }
-        prev_n = *n;        //  need to use pointer here, bizarre!
+        prev_n = n;
+        i += 1;
     }
 
     println!("Part 1: there were {} increases (should be 1832)", increases);
@@ -61,6 +51,24 @@ fn main() {
     println!("Part 2: there were {} window increases (should be 1858)", w_increases);
 }
 
+
+// Function to read lines from a file and return a vector of strings
+fn read_lines(fname: &str) -> Vec<String> {
+
+    // Read whole file into memory
+    let data = fs::read_to_string(fname)
+        .expect("Error reading file");
+
+    // Split by newlines, return vector of Strings
+    data.lines().map(|s| s.to_string()).collect()
+}
+
+// Convert a vector of strings containing numbers, to a vector of integers
+fn lines_to_integers(lines: &Vec<String>) -> Vec<i32> {
+    lines.iter().map(|l| parse_int(l)).collect()
+}
+
+
 // Parse an integer string, return -1 if there was an error
 fn parse_int(s: &str) -> i32 {
     match s.parse::<i32>() {
@@ -68,3 +76,4 @@ fn parse_int(s: &str) -> i32 {
         Err(_) => return -1,
     }
 }
+
