@@ -2,9 +2,9 @@
 
 My solutions for the Advent of Code 2021.
 
-* **Day 1** (C, Python, Rust): Count number of increases in a text file of lines;
-    Rust version is first experiment in this language (*easy* in Python and C)
-* **Day 2** (Go, Python): Process the state of a submarine by interpreting 
+* **Day 1** (C, Python, Rust): Count number of increases in a text file of
+    lines (*easy*); Rust version is my first experiment in this language
+* **Day 2** (Go, Python, Rust): Process the state of a submarine by interpreting 
     instructions "forward", "up", "down", etc. (*easy*)
 * **Day 3** (Julia, Python): Read list of binary numbers to establish 
     codes based on column-wise bit frequency (*easy*)
