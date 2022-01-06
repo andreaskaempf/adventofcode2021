@@ -6,7 +6,7 @@ My solutions for the Advent of Code 2021.
     lines (*easy*); Rust version is my first experiment in this language
 * **Day 2** (Go, Python, Rust): Process the state of a submarine by interpreting 
     instructions "forward", "up", "down", etc. (*easy*)
-* **Day 3** (Julia, Python): Read list of binary numbers to establish 
+* **Day 3** (Julia, Python, Rust): Read list of binary numbers to establish 
     codes based on column-wise bit frequency (*easy*)
 * **Day 4** (Go): Simulate game of bingo, by applying list of called numbers
     until first board wins (for part 2, also find the last board
