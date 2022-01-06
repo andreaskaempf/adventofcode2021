@@ -19,6 +19,7 @@ fn main() {
     println!("{} lines", data.len());
 
     // Convert list of strings to a list of lists of 1/0 integers
+
     let m: Vec<Vec<i32>> = data.iter().map(|r| parse_binary(r)).collect();
     let ncols = m[0].len();  // number of columns
     //println!("{:?}", m);
@@ -29,8 +30,7 @@ fn main() {
     let mut gamma_bits: Vec<i32> = Vec::new();
     let mut epsilon_bits: Vec<i32> = Vec::new();
     let ones = count_ones(&m); // count up ones in each column
-    let mut i = 0;
-    while i < ncols {  // each column
+    for i in 0..ncols {  // each column
         if ones[i] >= (m.len() as i32) / 2 {
             gamma_bits.push(1);
             epsilon_bits.push(0);
@@ -38,7 +38,6 @@ fn main() {
             gamma_bits.push(0);
             epsilon_bits.push(1);
         }
-        i += 1;  // next column
     }
 
     // Convert to decimal and show result
@@ -65,9 +64,8 @@ fn main() {
         }
 
         // Filter out the rows that have this value for the column
-        // DOES NOT WORK: m2 = m2.iter().filter(|r| r[c] == bit).collect()
         m2 = filter_rows(&m2, c, bit);
-        println!("  Col {}: {} left", c, m2.len());
+        //println!("  Col {}: {} left", c, m2.len());
         c += 1;  // next column
     }
 
@@ -76,7 +74,6 @@ fn main() {
 
     // CO2: filter list to numbers that have least frequent 1/0 in
     // the current column
-    // TODO: Can we combine both these loops?
     m2 = copy_matrix(&m);
     c = 0;  // current column
     while m2.len() > 1 && c < ncols {
@@ -89,9 +86,8 @@ fn main() {
         }
 
         // Filter out the rows that have this value for the column
-        // DOES NOT WORK: m2 = m2.iter().filter(|r| r[c] == bit).collect();
         m2 = filter_rows(&m2, c, bit);
-        println!("  Col {}: {} left", c, m2.len());
+        //println!("  Col {}: {} left", c, m2.len());
         c += 1;  // next column
     }
 
@@ -104,17 +100,14 @@ fn main() {
 
 // For a list of 1/0 vectors, count up the 1s in each column
 fn count_ones(m: &Vec<Vec<i32>>) -> Vec<i32> {
-   
     let mut ones = Vec::new();
-    let mut i: usize = 0;
-    let cols = m[0].len();
-    while i < cols {    // each column
+    let ncols = m[0].len();
+    for i in 0..ncols {    // each column
         let mut o = 0;
         for r in m {
             o += r[i];
         }
         ones.push(o);
-        i += 1;         // next column
     }
     ones
 }
@@ -133,7 +126,7 @@ fn filter_rows(rows: &Vec<Vec<i32>>, col: usize, val: i32) -> Vec<Vec<i32>> {
     res
 }
 
-// Make a deep copy of a matrix
+// Make a deep copy of a matrix, i.e., a vector of integer vectors
 fn copy_matrix(m: &Vec<Vec<i32>>) -> Vec<Vec<i32>> {
     let mut m2: Vec<Vec<i32>> = Vec::new();
     for r in m.iter() { // each row
@@ -154,18 +147,9 @@ fn read_lines(fname: &str) -> Vec<String> {
 }
 
 // Parse a string of '1'/'0' chars into a vector of 1/0 ints
-// TODO: use c.to_digit with error handling, and map it
 fn parse_binary(s: &str) -> Vec<i32> {
-    let mut result: Vec<i32> = Vec::new();
-    for c in s.chars() {
-        //result.push(c.to_digit(10));
-        if c == '0' {
-            result.push(0);
-        } else {
-            result.push(1);
-        }
-    }
-    result
+    let res: Vec<i32> = s.chars().map(|c| c.to_digit(10).unwrap_or(999) as i32).collect();
+    res
 }
 
 // Convert a vector of binary 1/0 digits into decimal
