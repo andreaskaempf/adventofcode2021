@@ -8,7 +8,7 @@ My solutions for the Advent of Code 2021.
     instructions "forward", "up", "down", etc. (*easy*)
 * **Day 3** (Julia, Python, Rust): Read list of binary numbers to establish 
     codes based on column-wise bit frequency (*easy*)
-* **Day 4** (Go): Simulate game of bingo, by applying list of called numbers
+* **Day 4** (Go, Rust): Simulate game of bingo, by applying list of called numbers
     until first board wins (for part 2, also find the last board
     that wins -- *easy*)
 * **Day 5** (Go): Trace lines on a grid, given starting and ending 
