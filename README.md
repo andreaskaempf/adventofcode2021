@@ -11,7 +11,7 @@ My solutions for the Advent of Code 2021.
 * **Day 4** (Go, Rust): Simulate game of bingo, by applying list of called numbers
     until first board wins (for part 2, also find the last board
     that wins -- *easy*)
-* **Day 5** (Go): Trace lines on a grid, given starting and ending 
+* **Day 5** (Go, Rust): Trace lines on a grid, given starting and ending 
     coordinates of each line, and count up where 2 or more lines cross 
     (part 1 only includes horizontal and vertical lines, part 2 diagonal 
     as well -- *easy*).
