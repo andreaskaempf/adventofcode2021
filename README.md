@@ -15,7 +15,7 @@ My solutions for the Advent of Code 2021.
     coordinates of each line, and count up where 2 or more lines cross 
     (part 1 only includes horizontal and vertical lines, part 2 diagonal 
     as well -- *easy*).
-* **Day 6** (Python, Go): Simulate growth of a population of "lanternfish",
+* **Day 6** (Python, Go, Rust): Simulate growth of a population of "lanternfish",
     tricky because performance crawls if you try to simulate individual
     creatures (used dictionary/array of fish by age for speed -- *medium*).
 * **Day 7** (Julia): Find target position that minimizes fuel use for 
